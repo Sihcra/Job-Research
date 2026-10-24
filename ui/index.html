@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ sơ của tôi</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Thanh điều khiển mô phỏng trạng thái hỗ trợ kiểm thử giao diện -->
+  <aside class="state-controller" aria-label="Bộ điều khiển trạng thái mô phỏng">
+    <div class="state-controller-inner">
+      <span class="state-label">Mô phỏng trạng thái:</span>
+      <div class="state-buttons">
+        <button type="button" class="btn-state active" data-state="sample">Dữ liệu mẫu</button>
+        <button type="button" class="btn-state" data-state="empty">Hồ sơ trống</button>
+        <button type="button" class="btn-state" data-state="loading">Đang tải</button>
+        <button type="button" class="btn-state" data-state="load_error">Lỗi tải</button>
+      </div>
+      <label class="state-checkbox-label">
+        <input type="checkbox" id="simulate-save-error">
+        <span>Giả lập lỗi khi lưu</span>
+      </label>
+    </div>
+  </aside>
+
+  <div class="page-wrapper">
+    <header class="page-header">
+      <h1 class="page-title">Hồ sơ của tôi</h1>
+      <!-- Gợi ý khi hồ sơ chưa có dữ liệu -->
+      <div id="empty-state-hint" class="hint-banner" hidden>
+        Điền thông tin để bắt đầu.
+      </div>
+    </header>
+
+    <!-- Thông báo lỗi khi tải dữ liệu -->
+    <section id="load-error-banner" class="alert-banner alert-danger" role="alert" hidden>
+      <span class="alert-message">Không tải được hồ sơ. Thử lại.</span>
+      <button type="button" id="retry-load-btn" class="btn-action">Thử lại</button>
+    </section>
+
+    <!-- Thông báo lỗi khi lưu thất bại -->
+    <section id="save-error-banner" class="alert-banner alert-danger" role="alert" hidden>
+      <span class="alert-message">Không lưu được. Dữ liệu vẫn còn trên màn hình.</span>
+      <button type="button" id="dismiss-save-error-btn" class="btn-action">Đóng</button>
+    </section>
+
+    <!-- Giao diện Skeleton khi đang tải -->
+    <section id="skeleton-loader" class="skeleton-container" aria-busy="true" aria-label="Đang tải dữ liệu" hidden>
+      <div class="skeleton-section">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-line"></div>
+        <div class="skeleton skeleton-line"></div>
+        <div class="skeleton skeleton-textarea"></div>
+      </div>
+      <div class="skeleton-section">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-card"></div>
+      </div>
+      <div class="skeleton-section">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-card"></div>
+      </div>
+      <div class="skeleton-section">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-card"></div>
+      </div>
+      <div class="skeleton-section">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-card"></div>
+      </div>
+      <div class="skeleton-section">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-line"></div>
+        <div class="skeleton skeleton-line"></div>
+      </div>
+    </section>
+
+    <!-- Form chính -->
+    <form id="profile-form" novalidate>
+      <!-- 1. Thông tin cá nhân -->
+      <fieldset class="form-section">
+        <legend class="section-legend">Thông tin cá nhân</legend>
+        
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="personal-full-name">Họ và tên <span class="required-mark">*</span></label>
+            <input type="text" id="personal-full-name" name="full_name" required autocomplete="name">
+            <div class="field-error" id="error-personal-full_name" role="alert"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="personal-city">Thành phố <span class="required-mark">*</span></label>
+            <input type="text" id="personal-city" name="city" required autocomplete="address-level2">
+            <div class="field-error" id="error-personal-city" role="alert"></div>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="personal-email">Email <span class="required-mark">*</span></label>
+            <input type="email" id="personal-email" name="email" required autocomplete="email">
+            <div class="field-error" id="error-personal-email" role="alert"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="personal-phone">Số điện thoại</label>
+            <input type="tel" id="personal-phone" name="phone" autocomplete="tel">
+            <div class="field-error" id="error-personal-phone" role="alert"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="personal-linkedin">LinkedIn</label>
+          <input type="url" id="personal-linkedin" name="linkedin" placeholder="https://www.linkedin.com/in/..." autocomplete="url">
+          <div class="field-error" id="error-personal-linkedin" role="alert"></div>
+        </div>
+
+        <div class="form-group">
+          <div class="label-with-counter">
+            <label for="personal-summary">Tóm tắt bản thân</label>
+            <span class="char-counter" id="summary-counter">0 / 500</span>
+          </div>
+          <textarea id="personal-summary" name="summary" maxlength="500" rows="3" placeholder="2-4 câu giới thiệu bản thân..."></textarea>
+          <div class="field-error" id="error-personal-summary" role="alert"></div>
+        </div>
+      </fieldset>
+
+      <!-- 2. Kinh nghiệm -->
+      <fieldset class="form-section">
+        <div class="section-header-row">
+          <legend class="section-legend">Kinh nghiệm</legend>
+          <button type="button" id="add-experience-btn" class="btn-secondary">Thêm kinh nghiệm</button>
+        </div>
+        <div id="experience-list" class="item-list"></div>
+      </fieldset>
+
+      <!-- 3. Kỹ năng -->
+      <fieldset class="form-section">
+        <div class="section-header-row">
+          <legend class="section-legend">Kỹ năng</legend>
+          <button type="button" id="add-skill-btn" class="btn-secondary">Thêm kỹ năng</button>
+        </div>
+        <div id="skills-list" class="item-list"></div>
+      </fieldset>
+
+      <!-- 4. Học vấn -->
+      <fieldset class="form-section">
+        <div class="section-header-row">
+          <legend class="section-legend">Học vấn</legend>
+          <button type="button" id="add-education-btn" class="btn-secondary">Thêm học vấn</button>
+        </div>
+        <div id="education-list" class="item-list"></div>
+      </fieldset>
+
+      <!-- 5. Ngoại ngữ -->
+      <fieldset class="form-section">
+        <div class="section-header-row">
+          <legend class="section-legend">Ngoại ngữ</legend>
+          <button type="button" id="add-language-btn" class="btn-secondary">Thêm ngoại ngữ</button>
+        </div>
+        <div id="languages-list" class="item-list"></div>
+      </fieldset>
+
+      <!-- 6. Mục tiêu -->
+      <fieldset class="form-section">
+        <legend class="section-legend">Mục tiêu</legend>
+        
+        <div class="form-group">
+          <label id="label-target-roles">Vị trí mong muốn</label>
+          <div class="tags-input-wrapper" data-field="target_roles" tabindex="-1">
+            <div class="tags-chip-list"></div>
+            <input type="text" class="tags-input-field" placeholder="Nhập và nhấn Enter hoặc phẩy..." aria-labelledby="label-target-roles">
+          </div>
+          <div class="field-error" id="error-goals-target_roles" role="alert"></div>
+        </div>
+
+        <div class="form-group">
+          <label id="label-locations">Địa điểm làm việc mong muốn</label>
+          <div class="tags-input-wrapper" data-field="locations" tabindex="-1">
+            <div class="tags-chip-list"></div>
+            <input type="text" class="tags-input-field" placeholder="Nhập và nhấn Enter hoặc phẩy..." aria-labelledby="label-locations">
+          </div>
+          <div class="field-error" id="error-goals-locations" role="alert"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="goals-min-salary">Mức lương tối thiểu (VND/tháng)</label>
+          <input type="number" id="goals-min-salary" name="min_salary_vnd" min="0" step="500000" placeholder="Ví dụ: 25000000">
+          <div class="field-error" id="error-goals-min_salary_vnd" role="alert"></div>
+        </div>
+
+        <div class="form-group">
+          <label id="label-avoid">Loại công việc muốn tránh</label>
+          <div class="tags-input-wrapper" data-field="avoid" tabindex="-1">
+            <div class="tags-chip-list"></div>
+            <input type="text" class="tags-input-field" placeholder="Nhập và nhấn Enter hoặc phẩy..." aria-labelledby="label-avoid">
+          </div>
+          <div class="field-error" id="error-goals-avoid" role="alert"></div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+  <!-- Thanh footer cố định với nút Lưu hồ sơ -->
+  <footer class="sticky-footer">
+    <div class="sticky-footer-inner">
+      <button type="submit" form="profile-form" id="save-button" class="btn-primary">Lưu hồ sơ</button>
+    </div>
+  </footer>
+
+  <!-- Thông báo Toast không chặn thao tác -->
+  <div id="toast" class="toast-notification" role="status" aria-live="polite" hidden>
+    Đã lưu hồ sơ
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
