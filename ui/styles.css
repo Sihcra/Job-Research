@@ -615,3 +615,415 @@ textarea {
     width: 100%;
   }
 }
+
+
+/* ==========================================================================
+   Phan mo rong: Giao dien CV (CV Screen - docs/ui-spec-cv.md)
+   ========================================================================== */
+
+/* Khoi tieu de man hinh CV */
+.cv-page-header {
+  margin-bottom: 24px;
+}
+
+.cv-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.link-edit-profile {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  background-color: #ffffff;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.link-edit-profile:hover {
+  background-color: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+/* Canh bao thong tin ho so con thieu (Loi 409) */
+.alert-warning {
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
+}
+
+.alert-warning .btn-action {
+  border-color: #f59e0b;
+  color: #b45309;
+  text-decoration: none;
+}
+
+.alert-warning .btn-action:hover {
+  background-color: #fef3c7;
+}
+
+/* Khoi giao dien CV (Tao CV, Xem truoc, Danh gia) */
+.cv-block {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.cv-block-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+/* Khoi 1: Tao CV */
+.cv-generate-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.cv-action-row {
+  display: flex;
+  align-items: center;
+}
+
+.cv-status-line {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+  margin-top: 10px;
+  min-height: 20px;
+}
+
+/* Thanh tien trinh chay khi dang tao hoac danh gia */
+.progress-bar-container {
+  width: 100%;
+  height: 4px;
+  background-color: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress-bar-indeterminate {
+  width: 40%;
+  height: 100%;
+  background-color: #2563eb;
+  border-radius: 2px;
+  animation: cv-progress-indeterminate 1.4s infinite ease-in-out;
+}
+
+@keyframes cv-progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(150%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+/* Khoi 2: Xem truoc PDF */
+.cv-viewer-container {
+  height: 640px;
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #f3f4f6;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cv-pdf-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background-color: #ffffff;
+}
+
+.cv-empty-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  background-color: #f9fafb;
+}
+
+.cv-empty-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.cv-preview-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Khoi 3: Danh gia CV */
+.cv-review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cv-review-header .cv-block-title {
+  margin-bottom: 0;
+}
+
+.cv-review-result {
+  margin-top: 20px;
+}
+
+/* The diem tong the */
+.cv-overall-card {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.cv-overall-main {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.cv-overall-score {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+}
+
+.cv-overall-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cv-overall-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.cv-tier-badge {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 9999px;
+  width: fit-content;
+  display: inline-block;
+}
+
+/* Phan loai mau sac theo muc diem */
+.tier-good {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.tier-fair {
+  background-color: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.tier-improve {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.tier-good.cv-score-fill {
+  background-color: #10b981;
+}
+
+.tier-fair.cv-score-fill {
+  background-color: #3b82f6;
+}
+
+.tier-improve.cv-score-fill {
+  background-color: #ef4444;
+}
+
+/* Diem tung phan */
+.cv-sections-wrapper {
+  margin-bottom: 24px;
+}
+
+.cv-section-subtitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.cv-sections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cv-score-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 60px;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+}
+
+.cv-score-name {
+  font-weight: 600;
+  color: #374151;
+}
+
+.cv-score-track {
+  width: 100%;
+  height: 10px;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.cv-score-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.cv-score-number {
+  font-weight: 700;
+  color: #111827;
+  text-align: right;
+}
+
+/* Danh sach diem can sua */
+.cv-fixes-wrapper {
+  margin-top: 20px;
+}
+
+.cv-fixes-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.cv-fix-item {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.cv-fix-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.cv-fix-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.cv-fix-line {
+  font-size: 12px;
+  color: #4b5563;
+  font-style: italic;
+}
+
+.cv-fix-text {
+  font-size: 14px;
+  color: #1f2937;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.cv-fixes-empty {
+  padding: 14px 16px;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Toast canh bao loi */
+.toast-danger {
+  background-color: #991b1b;
+}
+
+/* Toi uu hoa giao dien phan hoi tren dien thoai va man hinh 375px */
+@media (max-width: 600px) {
+  .cv-viewer-container {
+    height: 480px;
+  }
+
+  .cv-review-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cv-review-header .btn-primary {
+    width: 100%;
+  }
+
+  .cv-action-row .btn-primary {
+    width: 100%;
+  }
+
+  .cv-preview-actions .btn-secondary {
+    width: 100%;
+  }
+
+  .cv-score-row {
+    grid-template-columns: 95px 1fr 45px;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  .cv-overall-score {
+    font-size: 40px;
+  }
+}

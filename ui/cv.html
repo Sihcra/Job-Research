@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV của tôi</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Thanh điều khiển mô phỏng trạng thái hỗ trợ kiểm thử giao diện -->
+  <aside class="state-controller" aria-label="Bộ điều khiển trạng thái mô phỏng">
+    <div class="state-controller-inner">
+      <span class="state-label">Mô phỏng trạng thái:</span>
+      <div class="state-buttons">
+        <button type="button" class="btn-state active" data-state="ready">Đã có CV</button>
+        <button type="button" class="btn-state" data-state="empty">Chưa có CV</button>
+        <button type="button" class="btn-state" data-state="generating">Đang tạo</button>
+        <button type="button" class="btn-state" data-state="reviewing">Đang đánh giá</button>
+        <button type="button" class="btn-state" data-state="generate_error">Lỗi tạo</button>
+        <button type="button" class="btn-state" data-state="review_error">Lỗi đánh giá</button>
+        <button type="button" class="btn-state" data-state="profile_missing">Thiếu hồ sơ</button>
+        <button type="button" class="btn-state" data-state="no_fixes">Không có lỗi</button>
+      </div>
+      <label class="state-checkbox-label">
+        <input type="checkbox" id="simulate-download-error">
+        <span>Giả lập lỗi tải PDF</span>
+      </label>
+    </div>
+  </aside>
+
+  <div class="page-wrapper">
+    <header class="page-header cv-page-header">
+      <div class="cv-header-row">
+        <h1 class="page-title">CV của tôi</h1>
+        <a href="index.html" class="link-edit-profile">Sửa hồ sơ</a>
+      </div>
+    </header>
+
+    <!-- Biểu ngữ cảnh báo lỗi tạo CV -->
+    <section id="generate-error-banner" class="alert-banner alert-danger" role="alert" hidden>
+      <span class="alert-message">Không tạo được CV. Thử lại.</span>
+      <button type="button" id="retry-generate-btn" class="btn-action">Thử lại</button>
+    </section>
+
+    <!-- Biểu ngữ cảnh báo lỗi đánh giá CV -->
+    <section id="review-error-banner" class="alert-banner alert-danger" role="alert" hidden>
+      <span class="alert-message">Không đánh giá được CV. Thử lại.</span>
+      <button type="button" id="retry-review-btn" class="btn-action">Thử lại</button>
+    </section>
+
+    <!-- Biểu ngữ cảnh báo hồ sơ chưa có thông tin (lỗi 409 profile_missing) -->
+    <section id="profile-missing-banner" class="alert-banner alert-warning" role="alert" hidden>
+      <span class="alert-message">Hồ sơ chưa có thông tin. Vui lòng điền hồ sơ trước.</span>
+      <a href="index.html" class="btn-action">Sửa hồ sơ</a>
+    </section>
+
+    <!-- Khối 1: Tạo CV -->
+    <section class="cv-block" id="block-generate">
+      <h2 class="cv-block-title">Tạo CV</h2>
+      <div class="cv-generate-content">
+        <div class="cv-action-row">
+          <button type="button" id="generate-btn" class="btn-primary">Tạo CV từ hồ sơ</button>
+        </div>
+        <div id="generate-progress" class="progress-bar-container" hidden>
+          <div class="progress-bar-indeterminate"></div>
+        </div>
+        <div id="generate-status" class="cv-status-line" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Khối 2: Xem trước -->
+    <section class="cv-block" id="block-preview">
+      <h2 class="cv-block-title">Xem trước</h2>
+      <div class="cv-viewer-container" id="cv-viewer-container">
+        <!-- Hiển thị khi chưa có CV -->
+        <div id="cv-empty-placeholder" class="cv-empty-placeholder" hidden>
+          <p class="cv-empty-text">Chưa có CV. Bấm Tạo CV.</p>
+        </div>
+        <!-- Khung nhúng PDF -->
+        <iframe id="cv-pdf-frame" class="cv-pdf-frame" title="Xem trước CV" src="about:blank"></iframe>
+      </div>
+      <div class="cv-preview-actions">
+        <button type="button" id="download-btn" class="btn-secondary">Tải PDF</button>
+      </div>
+    </section>
+
+    <!-- Khối 3: Đánh giá -->
+    <section class="cv-block" id="block-review">
+      <div class="cv-review-header">
+        <h2 class="cv-block-title">Đánh giá</h2>
+        <button type="button" id="review-btn" class="btn-primary">Đánh giá CV</button>
+      </div>
+
+      <!-- Gợi ý khi chưa có CV -->
+      <div id="review-empty-hint" class="hint-banner" hidden>
+        Tạo CV trước để đánh giá.
+      </div>
+
+      <!-- Thanh tiến trình đánh giá -->
+      <div id="review-progress" class="progress-bar-container" hidden>
+        <div class="progress-bar-indeterminate"></div>
+      </div>
+
+      <!-- Kết quả đánh giá -->
+      <div id="review-result" class="cv-review-result" hidden>
+        <!-- Điểm tổng thể -->
+        <div class="cv-overall-card">
+          <div class="cv-overall-main">
+            <span class="cv-overall-score" id="overall-score-value">72</span>
+            <div class="cv-overall-info">
+              <span class="cv-overall-label">Điểm tổng thể</span>
+              <span class="cv-tier-badge" id="overall-score-tier">Khá</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Điểm theo từng mục -->
+        <div class="cv-sections-wrapper">
+          <h3 class="cv-section-subtitle">Điểm theo từng phần</h3>
+          <div class="cv-sections-list" id="section-score-rows">
+            <!-- Điền động bởi JS -->
+          </div>
+        </div>
+
+        <!-- Danh sách điểm cần sửa -->
+        <div class="cv-fixes-wrapper">
+          <h3 class="cv-section-subtitle">Cần sửa</h3>
+          <ul class="cv-fixes-list" id="fixes-list">
+            <!-- Tối đa 5 mục do JS điền -->
+          </ul>
+          <div id="fixes-empty" class="cv-fixes-empty" hidden>
+            Không có điểm cần sửa.
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Thông báo Toast không chặn thao tác -->
+  <div id="toast" class="toast-notification" role="status" aria-live="polite" hidden></div>
+
+  <script src="cv.js"></script>
+</body>
+</html>
