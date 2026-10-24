@@ -232,6 +232,12 @@ function initTagInput(wrapper) {
     }
   });
 
+  inputField.addEventListener("change", () => {
+    if (inputField.value.trim()) {
+      addTag(inputField.value);
+    }
+  });
+
   inputField.addEventListener("blur", () => {
     if (inputField.value.trim()) {
       addTag(inputField.value);
@@ -303,6 +309,7 @@ function clearAllErrors() {
 
 /**
  * Thêm một mục Kinh nghiệm mới
+ * Tuân thủ placeholders và help text theo docs/ui-spec.md
  */
 function addExperienceItem(data = {}) {
   const card = document.createElement("div");
@@ -318,31 +325,36 @@ function addExperienceItem(data = {}) {
       <div class="form-grid-2">
         <div class="form-group">
           <label>Chức danh <span class="required-mark">*</span></label>
-          <input type="text" name="exp_title" data-field-key="title" value="${escapeHtml(data.title || "")}" required>
+          <input type="text" name="exp_title" data-field-key="title" value="${escapeHtml(data.title || "")}" required placeholder="Ví dụ: Data Engineer" list="datalist-experience-title">
+          <div class="field-hint">Chức danh bạn đã đảm nhận</div>
           <div class="field-error" data-for="title" role="alert"></div>
         </div>
         <div class="form-group">
           <label>Công ty <span class="required-mark">*</span></label>
-          <input type="text" name="exp_company" data-field-key="company" value="${escapeHtml(data.company || "")}" required>
+          <input type="text" name="exp_company" data-field-key="company" value="${escapeHtml(data.company || "")}" required placeholder="Ví dụ: Công ty ABC">
+          <div class="field-hint">Tên công ty</div>
           <div class="field-error" data-for="company" role="alert"></div>
         </div>
       </div>
       <div class="form-grid-2">
         <div class="form-group">
           <label>Tháng bắt đầu <span class="required-mark">*</span></label>
-          <input type="month" name="exp_start" data-field-key="start" value="${escapeHtml(data.start || "")}" required>
+          <input type="month" name="exp_start" data-field-key="start" value="${escapeHtml(data.start || "")}" required placeholder="Chọn tháng bắt đầu">
+          <div class="field-hint">Tháng và năm bắt đầu làm việc</div>
           <div class="field-error" data-for="start" role="alert"></div>
         </div>
         <div class="form-group">
           <label>Tháng kết thúc</label>
-          <input type="month" name="exp_end" data-field-key="end" value="${escapeHtml(data.end || "")}">
-          <span class="field-hint">Để trống nếu là công việc hiện tại.</span>
+          <input type="month" name="exp_end" data-field-key="end" value="${escapeHtml(data.end || "")}" placeholder="Để trống nếu đang làm">
+          <div class="field-hint">Bỏ trống nghĩa là hiện tại</div>
           <div class="field-error" data-for="end" role="alert"></div>
         </div>
       </div>
       <div class="form-group">
         <label>Thành tích / Mô tả công việc</label>
-        <textarea name="exp_bullets" rows="3" placeholder="Mỗi thành tích trên một dòng...">${escapeHtml(bulletsText)}</textarea>
+        <textarea name="exp_bullets" rows="3" placeholder="Mỗi dòng một thành tích">${escapeHtml(bulletsText)}</textarea>
+        <div class="field-hint">Ghi có số liệu nếu được, ví dụ "giảm 20% thời gian xử lý"</div>
+        <div class="field-error" data-for="bullets" role="alert"></div>
       </div>
     </div>
   `;
@@ -356,6 +368,7 @@ function addExperienceItem(data = {}) {
 
 /**
  * Thêm một mục Kỹ năng mới
+ * Tuân thủ placeholders và help text theo docs/ui-spec.md
  */
 function addSkillItem(data = {}) {
   const card = document.createElement("div");
@@ -371,7 +384,8 @@ function addSkillItem(data = {}) {
       <div class="form-grid-2">
         <div class="form-group">
           <label>Tên kỹ năng <span class="required-mark">*</span></label>
-          <input type="text" name="skill_name" data-field-key="name" placeholder="Ví dụ: Python, SQL" value="${escapeHtml(data.name || "")}" required>
+          <input type="text" name="skill_name" data-field-key="name" placeholder="Ví dụ: Python" list="datalist-skills-name" value="${escapeHtml(data.name || "")}" required>
+          <div class="field-hint">Công cụ hoặc kỹ năng cụ thể</div>
           <div class="field-error" data-for="name" role="alert"></div>
         </div>
         <div class="form-group">
@@ -398,6 +412,7 @@ function addSkillItem(data = {}) {
 
 /**
  * Thêm một mục Học vấn mới
+ * Tuân thủ placeholders và help text theo docs/ui-spec.md
  */
 function addEducationItem(data = {}) {
   const card = document.createElement("div");
@@ -411,17 +426,20 @@ function addEducationItem(data = {}) {
       <div class="form-grid-3">
         <div class="form-group">
           <label>Bằng cấp / Chuyên ngành <span class="required-mark">*</span></label>
-          <input type="text" name="edu_degree" data-field-key="degree" placeholder="Ví dụ: Cử nhân KHMT" value="${escapeHtml(data.degree || "")}" required>
+          <input type="text" name="edu_degree" data-field-key="degree" placeholder="Ví dụ: Cử nhân Khoa học Máy tính" list="datalist-education-degree" value="${escapeHtml(data.degree || "")}" required>
+          <div class="field-hint">Bằng cấp cao nhất</div>
           <div class="field-error" data-for="degree" role="alert"></div>
         </div>
         <div class="form-group">
           <label>Trường đào tạo <span class="required-mark">*</span></label>
-          <input type="text" name="edu_school" data-field-key="school" placeholder="Ví dụ: Đại học Bách Khoa" value="${escapeHtml(data.school || "")}" required>
+          <input type="text" name="edu_school" data-field-key="school" placeholder="Ví dụ: Đại học Bách khoa Hà Nội" value="${escapeHtml(data.school || "")}" required>
+          <div class="field-hint">Tên trường</div>
           <div class="field-error" data-for="school" role="alert"></div>
         </div>
         <div class="form-group">
           <label>Năm tốt nghiệp <span class="required-mark">*</span></label>
-          <input type="number" name="edu_year" data-field-key="year" min="1950" max="2035" placeholder="YYYY" value="${data.year || ""}" required>
+          <input type="number" name="edu_year" data-field-key="year" min="1950" max="2035" placeholder="Ví dụ: 2022" value="${data.year || ""}" required>
+          <div class="field-hint">Năm tốt nghiệp</div>
           <div class="field-error" data-for="year" role="alert"></div>
         </div>
       </div>
@@ -437,6 +455,7 @@ function addEducationItem(data = {}) {
 
 /**
  * Thêm một mục Ngoại ngữ mới
+ * Tuân thủ placeholders và help text theo docs/ui-spec.md
  */
 function addLanguageItem(data = {}) {
   const card = document.createElement("div");
@@ -450,12 +469,14 @@ function addLanguageItem(data = {}) {
       <div class="form-grid-2">
         <div class="form-group">
           <label>Tên ngoại ngữ <span class="required-mark">*</span></label>
-          <input type="text" name="lang_name" data-field-key="name" placeholder="Ví dụ: Tiếng Anh" value="${escapeHtml(data.name || "")}" required>
+          <input type="text" name="lang_name" data-field-key="name" placeholder="Ví dụ: Tiếng Anh" list="datalist-languages-name" value="${escapeHtml(data.name || "")}" required>
+          <div class="field-hint">Ngôn ngữ bạn dùng được</div>
           <div class="field-error" data-for="name" role="alert"></div>
         </div>
         <div class="form-group">
           <label>Trình độ <span class="required-mark">*</span></label>
-          <input type="text" name="lang_level" data-field-key="level" placeholder="Ví dụ: IELTS 7.0, Giao tiếp tốt" value="${escapeHtml(data.level || "")}" required>
+          <input type="text" name="lang_level" data-field-key="level" placeholder="Ví dụ: IELTS 7.0" list="datalist-languages-level" value="${escapeHtml(data.level || "")}" required>
+          <div class="field-hint">Chứng chỉ hoặc mức tự đánh giá</div>
           <div class="field-error" data-for="level" role="alert"></div>
         </div>
       </div>

@@ -85,13 +85,15 @@
         <div class="form-grid-2">
           <div class="form-group">
             <label for="personal-full-name">Họ và tên <span class="required-mark">*</span></label>
-            <input type="text" id="personal-full-name" name="full_name" required autocomplete="name">
+            <input type="text" id="personal-full-name" name="full_name" required autocomplete="name" placeholder="Ví dụ: Nguyễn Văn A">
+            <div class="field-hint">Đúng như trên giấy tờ tùy thân</div>
             <div class="field-error" id="error-personal-full_name" role="alert"></div>
           </div>
 
           <div class="form-group">
             <label for="personal-city">Thành phố <span class="required-mark">*</span></label>
-            <input type="text" id="personal-city" name="city" required autocomplete="address-level2">
+            <input type="text" id="personal-city" name="city" required autocomplete="address-level2" placeholder="Ví dụ: Hà Nội" list="datalist-city">
+            <div class="field-hint">Thành phố bạn đang sống</div>
             <div class="field-error" id="error-personal-city" role="alert"></div>
           </div>
         </div>
@@ -99,20 +101,23 @@
         <div class="form-grid-2">
           <div class="form-group">
             <label for="personal-email">Email <span class="required-mark">*</span></label>
-            <input type="email" id="personal-email" name="email" required autocomplete="email">
+            <input type="email" id="personal-email" name="email" required autocomplete="email" placeholder="Ví dụ: ten@email.com">
+            <div class="field-hint">Nhà tuyển dụng sẽ dùng email này để liên hệ</div>
             <div class="field-error" id="error-personal-email" role="alert"></div>
           </div>
 
           <div class="form-group">
             <label for="personal-phone">Số điện thoại</label>
-            <input type="tel" id="personal-phone" name="phone" autocomplete="tel">
+            <input type="tel" id="personal-phone" name="phone" autocomplete="tel" placeholder="Ví dụ: 0912 345 678">
+            <div class="field-hint">Không bắt buộc</div>
             <div class="field-error" id="error-personal-phone" role="alert"></div>
           </div>
         </div>
 
         <div class="form-group">
           <label for="personal-linkedin">LinkedIn</label>
-          <input type="url" id="personal-linkedin" name="linkedin" placeholder="https://www.linkedin.com/in/..." autocomplete="url">
+          <input type="url" id="personal-linkedin" name="linkedin" placeholder="https://www.linkedin.com/in/ten-cua-ban" autocomplete="url">
+          <div class="field-hint">Dán đường dẫn hồ sơ LinkedIn</div>
           <div class="field-error" id="error-personal-linkedin" role="alert"></div>
         </div>
 
@@ -121,7 +126,8 @@
             <label for="personal-summary">Tóm tắt bản thân</label>
             <span class="char-counter" id="summary-counter">0 / 500</span>
           </div>
-          <textarea id="personal-summary" name="summary" maxlength="500" rows="3" placeholder="2-4 câu giới thiệu bản thân..."></textarea>
+          <textarea id="personal-summary" name="summary" maxlength="500" rows="3" placeholder="Mô tả ngắn về bản thân và thế mạnh chính"></textarea>
+          <div class="field-hint">2–4 câu, tối đa 500 ký tự</div>
           <div class="field-error" id="error-personal-summary" role="alert"></div>
         </div>
       </fieldset>
@@ -170,8 +176,9 @@
           <label id="label-target-roles">Vị trí mong muốn</label>
           <div class="tags-input-wrapper" data-field="target_roles" tabindex="-1">
             <div class="tags-chip-list"></div>
-            <input type="text" class="tags-input-field" placeholder="Nhập và nhấn Enter hoặc phẩy..." aria-labelledby="label-target-roles">
+            <input type="text" class="tags-input-field" placeholder="Ví dụ: Data Engineer, Enter để thêm" list="datalist-target-roles" aria-labelledby="label-target-roles">
           </div>
+          <div class="field-hint">Nhấn Enter hoặc dấu phẩy để thêm</div>
           <div class="field-error" id="error-goals-target_roles" role="alert"></div>
         </div>
 
@@ -179,14 +186,16 @@
           <label id="label-locations">Địa điểm làm việc mong muốn</label>
           <div class="tags-input-wrapper" data-field="locations" tabindex="-1">
             <div class="tags-chip-list"></div>
-            <input type="text" class="tags-input-field" placeholder="Nhập và nhấn Enter hoặc phẩy..." aria-labelledby="label-locations">
+            <input type="text" class="tags-input-field" placeholder="Ví dụ: Hà Nội, Enter để thêm" list="datalist-locations" aria-labelledby="label-locations">
           </div>
+          <div class="field-hint">Nhấn Enter hoặc dấu phẩy để thêm</div>
           <div class="field-error" id="error-goals-locations" role="alert"></div>
         </div>
 
         <div class="form-group">
           <label for="goals-min-salary">Mức lương tối thiểu (VND/tháng)</label>
           <input type="number" id="goals-min-salary" name="min_salary_vnd" min="0" step="500000" placeholder="Ví dụ: 25000000">
+          <div class="field-hint">Lương tối thiểu mong muốn, theo tháng, VND</div>
           <div class="field-error" id="error-goals-min_salary_vnd" role="alert"></div>
         </div>
 
@@ -194,13 +203,92 @@
           <label id="label-avoid">Loại công việc muốn tránh</label>
           <div class="tags-input-wrapper" data-field="avoid" tabindex="-1">
             <div class="tags-chip-list"></div>
-            <input type="text" class="tags-input-field" placeholder="Nhập và nhấn Enter hoặc phẩy..." aria-labelledby="label-avoid">
+            <input type="text" class="tags-input-field" placeholder="Ví dụ: Telesales, Enter để thêm" list="datalist-avoid" aria-labelledby="label-avoid">
           </div>
+          <div class="field-hint">Loại công việc bạn không muốn</div>
           <div class="field-error" id="error-goals-avoid" role="alert"></div>
         </div>
       </fieldset>
     </form>
   </div>
+
+  <!-- Danh sách gợi ý datalist theo bảng Input hints trong docs/ui-spec.md -->
+  <datalist id="datalist-city">
+    <option value="Hà Nội">
+    <option value="TP. Hồ Chí Minh">
+    <option value="Đà Nẵng">
+    <option value="Hải Phòng">
+    <option value="Cần Thơ">
+    <option value="Remote">
+  </datalist>
+
+  <datalist id="datalist-experience-title">
+    <option value="Software Engineer">
+    <option value="Data Engineer">
+    <option value="Data Analyst">
+    <option value="Product Manager">
+    <option value="Marketing Executive">
+    <option value="Kế toán">
+  </datalist>
+
+  <datalist id="datalist-skills-name">
+    <option value="Python">
+    <option value="JavaScript">
+    <option value="TypeScript">
+    <option value="Java">
+    <option value="SQL">
+    <option value="Excel">
+    <option value="Power BI">
+    <option value="Docker">
+    <option value="Git">
+    <option value="React">
+    <option value="Figma">
+  </datalist>
+
+  <datalist id="datalist-education-degree">
+    <option value="Cử nhân">
+    <option value="Thạc sĩ">
+    <option value="Kỹ sư">
+    <option value="Cao đẳng">
+    <option value="Chứng chỉ">
+  </datalist>
+
+  <datalist id="datalist-languages-name">
+    <option value="Tiếng Anh">
+    <option value="Tiếng Nhật">
+    <option value="Tiếng Hàn">
+    <option value="Tiếng Trung">
+    <option value="Tiếng Pháp">
+  </datalist>
+
+  <datalist id="datalist-languages-level">
+    <option value="IELTS 6.5">
+    <option value="IELTS 7.0">
+    <option value="TOEIC 800">
+    <option value="Giao tiếp tốt">
+    <option value="Đọc hiểu tốt">
+  </datalist>
+
+  <datalist id="datalist-target-roles">
+    <option value="Data Engineer">
+    <option value="Backend Developer">
+    <option value="Business Analyst">
+    <option value="Project Manager">
+  </datalist>
+
+  <datalist id="datalist-locations">
+    <option value="Hà Nội">
+    <option value="TP. Hồ Chí Minh">
+    <option value="Đà Nẵng">
+    <option value="Remote">
+  </datalist>
+
+  <datalist id="datalist-avoid">
+    <option value="Telesales">
+    <option value="Bán hàng trực tiếp">
+    <option value="Ca đêm">
+    <option value="Công tác thường xuyên">
+  </datalist>
 
   <!-- Thanh footer cố định với nút Lưu hồ sơ -->
   <footer class="sticky-footer">

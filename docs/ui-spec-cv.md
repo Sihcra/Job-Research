@@ -100,3 +100,7 @@ Antigravity works against the sample JSON below only. It makes no network calls 
 - Vietnamese labels, no emoji.
 - Only files under `ui/` were created or changed.
 - No network calls with the mock on (`USE_MOCK` stays `true`).
+
+## Design
+
+Use the Design system and Input hints sections of [ui-spec.md](ui-spec.md) for every input and button on this screen. Add a placeholder and help text to each input on this screen as well.
