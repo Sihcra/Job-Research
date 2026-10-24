@@ -112,7 +112,7 @@ function createPlaceholderPdfBlob() {
  * Tích hợp máy chủ bằng cách cấu hình USE_MOCK = false.
  */
 const API = {
-  USE_MOCK: true,
+  USE_MOCK: false,
   BASE_URL: "http://localhost:8000",
 
   async generateCv(simulationMode = "normal") {
